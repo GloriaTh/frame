@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function () {
+            $.fn.serializeJson = function () {
+                var serializeObj = {};
+                $(this.serializeArray()).each(function () {
+                    serializeObj[this.name] = this.value;
+                });
+                return serializeObj;
+            };
+
+            $("#btn").click(function () {
+                $.ajax({
+                    type : "POST",
+                    dataType : "JSON",
+                    url : "/user/register",
+                    beforeSend:  function (xhr) {
+                            xhr.setRequestHeader ("Authorization", "Basic ItsAWrap!(itworks...)"),
+                            xhr.setRequestHeader ("Content-Type", "application/json");
+                    },
+                    data : JSON.stringify("{'username':'json'}"),
+                    success : (function(response) {
+                    //Do something
+                    })
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <form id="form" enctype="application/json">
+        <input name="username"/>
+        <input name="password"/>
+        <input name="email"/>
+        <input name="phone"/>
+        <input name="question"/>
+        <input name="answer"/>
+        <input name="role"/>
+        <input type="button" id="btn"/>
+    </form>
+</body>
+</html>
