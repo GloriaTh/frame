@@ -7,13 +7,12 @@ import com.sboot.springboot.common.ValidateGroup;
 import com.sboot.springboot.domin.Test;
 import com.sboot.springboot.domin.User;
 import com.sboot.springboot.service.IUserService;
+import com.sboot.springboot.util.RabbitSender;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,10 +23,6 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -36,6 +31,8 @@ public class UserController {
     IUserService iUserService;
     @Value("${web.upload-path}")
     private String path;
+    @Autowired
+    private RabbitSender rabbitSender;
 
     @RequestMapping(value = "/login/{username}/{password}", method = RequestMethod.GET)
     @ResponseBody
@@ -117,5 +114,11 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping(value = "/send")
+    @ResponseBody
+    public void send(String msg, HttpServletRequest request, HttpServletResponse response) {
+        rabbitSender.send();
     }
 }
