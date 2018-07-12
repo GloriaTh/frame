@@ -46,6 +46,10 @@
 *.tar.gz
 *.rar
 
+# my
+mvnw
+mvnw.cmd
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 >>>>>>> 7c0bce0635ca65adc86482fcd17a66aab4d52624
