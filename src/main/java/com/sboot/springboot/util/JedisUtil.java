@@ -17,19 +17,6 @@ import java.util.Set;
  */
 @Component
 public class JedisUtil {
-    @Autowired
-    private MyJedisConfig config;
-
-    private static JedisPool pool;
-
-    public static void init() {
-        JedisPoolConfig config = new JedisPoolConfig();
-        pool = new JedisPool(config, "127.0.0.1", 6379, 1000 * 2, "Gloria");
-    }
-
-    static {
-        init();
-    }
 
     /**
      * @param key
@@ -37,7 +24,7 @@ public class JedisUtil {
      */
     public byte[] set(byte[] key, byte[] value) {
         // TODO Auto-generated method stub
-        Jedis jedis = pool.getResource();
+        Jedis jedis = MyJedisConfig.getResource();
         try {
             jedis.set(key, value);
             return value;
@@ -52,7 +39,7 @@ public class JedisUtil {
      * @param i
      */
     public void expire(byte[] key, int i) {
-        Jedis jedis = pool.getResource();
+        Jedis jedis = MyJedisConfig.getResource();
         try {
             jedis.expire(key, i);
         } finally {
@@ -67,7 +54,7 @@ public class JedisUtil {
      * @return
      */
     public byte[] get(byte[] key) {
-        Jedis jedis = pool.getResource();
+        Jedis jedis = MyJedisConfig.getResource();
         try {
             return jedis.get(key);
         } finally {
@@ -81,7 +68,7 @@ public class JedisUtil {
      */
     public void del(byte[] key) {
         // TODO Auto-generated method stub
-        Jedis jedis = pool.getResource();
+        Jedis jedis = MyJedisConfig.getResource();
         try {
             jedis.del(key);
         } finally {
@@ -95,7 +82,7 @@ public class JedisUtil {
      * @return
      */
     public Set<byte[]> keys(String sHIRO_SESSION_PREFIX) {
-        Jedis jedis = pool.getResource();
+        Jedis jedis = MyJedisConfig.getResource();
         try {
             return jedis.keys(sHIRO_SESSION_PREFIX.getBytes());
         } finally {
