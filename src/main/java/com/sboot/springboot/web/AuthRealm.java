@@ -2,8 +2,6 @@ package com.sboot.springboot.web;
 
 import com.sboot.springboot.dao.UserMapper;
 import com.sboot.springboot.domin.User;
-import com.sboot.springboot.service.IUserService;
-import com.sboot.springboot.util.PropertiesUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

@@ -72,9 +72,29 @@ public class RabbitMQConfig {
 //        }
 //    }
 
+//    @Bean
+//    public Queue Queue() {
+//        return new Queue("hello");
+//    }
+
     @Bean
-    public Queue Queue() {
-        return new Queue("hello");
+    public Queue Queue2() {
+        return new Queue("neo");
+    }
+
+    @Bean
+    public Queue AMessage() {
+        return new Queue("fanout.A");
+    }
+
+    @Bean
+    public Queue BMessage() {
+        return new Queue("fanout.B");
+    }
+
+    @Bean
+    public Queue CMessage() {
+        return new Queue("fanout.C");
     }
 
 }

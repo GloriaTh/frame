@@ -5,7 +5,7 @@ import com.sboot.springboot.domin.User;
 import org.springframework.stereotype.Service;
 
 public interface IUserService {
-    ServerResponse<User> login(String username, String password);
+    ServerResponse<String> login(String username, String password);
 
     ServerResponse<String> register(User user);
 }

@@ -12,5 +12,9 @@ public class RabbitReceiver {
     public void process(String hello) {
         System.out.println("Receiver  : " + hello);
     }
+//    @RabbitHandler
+//    public void process(String message) {
+//        System.out.println("fanout Receiver A  : " + message);
+//    }
 
 }

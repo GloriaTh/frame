@@ -4,12 +4,11 @@ import com.sboot.springboot.common.Const;
 import com.sboot.springboot.common.ServerResponse;
 import com.sboot.springboot.common.ValidateFiled;
 import com.sboot.springboot.common.ValidateGroup;
-import com.sboot.springboot.domin.Test;
 import com.sboot.springboot.domin.User;
 import com.sboot.springboot.service.IUserService;
+import com.sboot.springboot.service.impl.sayHelloImpl;
 import com.sboot.springboot.util.RabbitSender;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +32,8 @@ public class UserController {
     private String path;
     @Autowired
     private RabbitSender rabbitSender;
+    @Autowired
+    sayHelloImpl sayHello;
 
     @RequestMapping(value = "/login/{username}/{password}", method = RequestMethod.GET)
     @ResponseBody
@@ -40,25 +41,16 @@ public class UserController {
             fileds = {@ValidateFiled(index = 0, notNull = true),
                     @ValidateFiled(index = 1, notNull = true)}
     )
-    public ServerResponse<User> login(@PathVariable("username") String username,
-                                      @PathVariable("password") String password,
-                                      HttpSession session) {
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
-        Subject subject = SecurityUtils.getSubject();
-        subject.login(usernamePasswordToken);
-        ServerResponse<User> serverResponse = iUserService.login(username, password);
-        if (serverResponse.isSuccess()) {
-            session.setAttribute(Const.CURRENT_USER, serverResponse.getData());
-            return serverResponse;
-        }
+    public ServerResponse<String> login(@PathVariable("username") String username,
+                                        @PathVariable("password") String password) {
+        ServerResponse<String> serverResponse = iUserService.login(username, password);
         return serverResponse;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> register(@RequestBody(required = false) Test user) {
-        System.out.println(user);
-        return null;
+    public ServerResponse<String> register(User user) {
+        return iUserService.register(user);
     }
 
     @RequestMapping(value = "/loginOut", method = RequestMethod.GET)
@@ -119,6 +111,6 @@ public class UserController {
     @RequestMapping(value = "/send")
     @ResponseBody
     public void send(String msg, HttpServletRequest request, HttpServletResponse response) {
-        rabbitSender.send();
+        sayHello.sayHello(msg);
     }
 }
